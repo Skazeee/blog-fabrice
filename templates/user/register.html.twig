@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register!{% endblock %}
+
+{% block body %}
+
+
+
+{{ form_start(form,{'attr':{'class':'text-center','style':'margin: 5px 25% 0px 25%'}}) }}
+    <h1 class="h3 mb-3 font-weight-normal text-center m-3">Please Register</h1>
+    {{ form_label(form.firstname) }}
+    {{ form_widget(form.firstname, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
+    {{ form_label(form.lastname) }}
+    {{ form_widget(form.lastname, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
+    {{ form_label(form.pseudo) }}
+    {{ form_widget(form.pseudo, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
+
+    <button type="submit" class="btn btn-lg btn-primary text-center mt-3">s'enregister</button>
+    {{ form_end(form) }}
+
+{% endblock %}
