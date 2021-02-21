@@ -12,6 +12,7 @@ class ArticleFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
+        $randomCat =["Food","Genshin","Cs:Go"];
 
         for ($i= 1;$i <= 20; $i++){
             $article = new article();
@@ -20,7 +21,8 @@ class ArticleFixture extends Fixture
                 ->setSummary($faker->text($maxNbChars = 100))
                 ->setContent($faker->sentence(500,true))
                 ->setPicture($faker->imageUrl(640,480))
-                ->setCreatedAt($faker->dateTime('now'));
+                ->setCreatedAt($faker->dateTime('now'))
+                ->setCategory($faker->randomElement($randomCat));
 
             $manager->persist($article);
         }
