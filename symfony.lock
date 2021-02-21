@@ -96,9 +96,6 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
-    "fakerphp/faker": {
-        "version": "v1.13.0"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
@@ -524,6 +521,9 @@
         "version": "v5.2.3"
     },
     "twig/extra-bundle": {
+        "version": "v3.3.0"
+    },
+    "twig/string-extra": {
         "version": "v3.3.0"
     },
     "twig/twig": {

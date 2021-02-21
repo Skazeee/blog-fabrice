@@ -18,8 +18,6 @@ class Users extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
-        $faker->seed(0);
-
         $admin = new User();
         $admin->setEmail('test@test.com')
             ->setFirstname($faker->firstName)
