@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -35,6 +37,12 @@ class User implements UserInterface
      */
     private $password;
 
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pseudo;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -46,9 +54,15 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="OneToMany")
      */
-    private $pseudo;
+    private $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -131,6 +145,18 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -155,15 +181,34 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPseudo(): ?string
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
     {
-        return $this->pseudo;
+        return $this->articles;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function addArticle(Article $article): self
     {
-        $this->pseudo = $pseudo;
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setOneToMany($this);
+        }
 
         return $this;
     }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getOneToMany() === $this) {
+                $article->setOneToMany(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

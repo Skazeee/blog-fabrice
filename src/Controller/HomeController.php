@@ -18,7 +18,6 @@ class HomeController extends AbstractController
     {
 
         $articlesList = $articles->FindLatest(10);
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController', 'articles' => $articlesList
         ]);

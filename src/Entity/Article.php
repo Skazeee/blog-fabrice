@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,18 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Article
 {
 
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -50,25 +45,20 @@ class Article
     private $Created_at;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="name")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -119,27 +109,40 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->Created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $Created_at): self
+    public function setCreatedAt(DateTimeInterface $Created_at): self
     {
         $this->Created_at = $Created_at;
 
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->user = $User;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?string $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
         return $this;
     }
+
 }
