@@ -17,9 +17,7 @@
         }
     </style>
 
-    <div class="container">
-        <h1 class="text-center mt-3">Bienvenue ✅</h1>
-        <div class="row-flex">
+    <div class="container ">
             <h3 class="text-center m-4">Voici une liste des articles les plus récents !</h3>
             {% for article in articles %}
                 <div class="text-center row mt-3">
@@ -39,7 +37,17 @@
                     </div>
                 </div>
             {% endfor %}
+        <div class="text-center row mt-3">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="width: fit-content; margin-left: auto;margin-right: auto;">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    {% for i in 1..5 %}
+                        <button type="button" class="btn btn-secondary">{{ i }}</button>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
+
     </div>
+
 
 {% endblock %}

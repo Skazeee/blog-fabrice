@@ -26,10 +26,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">À propos</a>
+                    <a class="nav-link" href="{{path('about') }}">À propos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{{path('contact')}}">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('register') }}">S'inscrire</a>
@@ -53,5 +53,23 @@
     {% endfor %}
         {% block body %}{% endblock %}
 
+    <div class="footer">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Instagram
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">À Twitter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">NewsLetter</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
     </body>
 </html>

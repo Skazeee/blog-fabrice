@@ -5,8 +5,8 @@
 {% block body %}
 
 
-
-{{ form_start(form,{'attr':{'class':'text-center','style':'margin: 5px 25% 0px 25%'}}) }}
+<div class="container" style="height: 79.4vh;">
+{{ form_start(form,{'attr':{'class':'text-center'}}) }}
     <h1 class="h3 mb-3 font-weight-normal text-center m-3">Please Register</h1>
     {{ form_label(form.firstname) }}
     {{ form_widget(form.firstname, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
@@ -19,7 +19,8 @@
     {{ form_label(form.password) }}
     {{ form_widget(form.password, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
 
-    <button type="submit" class="btn btn-lg btn-primary text-center mt-3">s'enregister</button>
+    <button type="submit" class="btn btn-lg btn-primary text-center mt-3 mb-5">s'enregister</button>
     {{ form_end(form) }}
+</div>
 
 {% endblock %}
