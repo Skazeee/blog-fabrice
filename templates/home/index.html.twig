@@ -17,32 +17,51 @@
         }
     </style>
 
-    <div class="container ">
-            <h3 class="text-center m-4">Voici une liste des articles les plus récents !</h3>
-            {% for article in articles %}
-                <div class="text-center row mt-3">
-                    <h4 class="text-center m-4">{{ article.title }}</h4>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-sm">
-                        <p class="float-left mr-3">{{ article.user.firstname ~' ' ~ article.user.lastname }} </p>
-                        <p class="float-left mr-3">{{ article.category.name }} </p>
-                        <p class="float-left">{{ article.CreatedAt |date("d/m/Y") }}</p>
-                        <div class="text-center mb-4">
-                            <img style="max-width: 15rem;" src="{{ article.picture }}">
-                        </div>
-                        <blockquote class="blockquote text-center">
-                            {{ article.content|u.truncate(250,"...") }}
-                        </blockquote>
+    <div class="container">
+        <h3 class="text-center m-4">Voici une liste des articles les plus récents !</h3>
+        {% for article in articles %}
+            <div class="text-center row mt-3">
+                <h4 class="text-center m-4">{{ article.title }}</h4>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm">
+                    <p class="float-left mr-3">{{ article.user.firstname ~' ' ~ article.user.lastname }} </p>
+                    <p class="float-left mr-3">{{ article.category.name }} </p>
+                    <p class="float-left">{{ article.CreatedAt |date("d/m/Y") }}</p>
+                    <br><br>
+                    <div class="text-center mb-4">
+                        <img src="{{ article.picture }}">
                     </div>
+                    <blockquote class="blockquote text-center">
+                        {{ article.content|u.truncate(250) }}
+                        <a href="{{ path('article_show',{'slug':article.id}) }}"> ... Lire la suite</a>
+                    </blockquote>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
         <div class="text-center row mt-3">
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="width: fit-content; margin-left: auto;margin-right: auto;">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"
+                 style="width: fit-content; margin-left: auto;margin-right: auto;">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    {% for i in 1..5 %}
-                        <button type="button" class="btn btn-secondary">{{ i }}</button>
-                    {% endfor %}
+                    {% if pagination > 10 %}
+                        {% for i in 1..5 %}
+                                <a href="{{ path('home',{'page': i}) }}">
+                                    <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                </a>
+                        {% endfor %}
+                        <button type="button" class="btn btn-secondary">...</button>
+                        {% for i in pagination-4..pagination %}
+                                <a href="{{ path('home',{'page': i}) }}">
+                                    <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                </a>
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 1..pagination %}
+                                <a href="{{ path('home',{'page': i}) }}">
+                                    <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                </a>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

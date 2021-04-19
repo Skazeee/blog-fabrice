@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comments;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -31,18 +32,21 @@ class UserFixtures extends Fixture
             ->setPassword($this->encoder->encodePassword($admin, 'admin'))
             ->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
-        $this->addReference('User_ID',$admin);
+        $this->addReference('Admin_ID',$admin);
 
+
+        for ($i = 0; $i < 50; $i++){
         $user = new User();
         $user->setEmail($faker->email)
             ->setFirstname($faker->firstName)
             ->setLastname($faker->lastName)
-            ->setPseudo('UserPseudo')
-            ->setPassword($this->encoder->encodePassword($user, 'admin'))
+            ->setPseudo($faker->userName)
+            ->setPassword($this->encoder->encodePassword($user, 'user'))
             ->setRoles(['ROLE_USER']);
         $manager->persist($user);
+            $this->addReference('User_ID_'.$i,$user);
 
-
+        }
         $manager->flush();
     }
 }

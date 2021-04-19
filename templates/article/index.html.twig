@@ -3,5 +3,67 @@
 {% block title %}Hello ArticleController!{% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="text-center row mt-3">
+        <h3 class="text-center m-4">{{ article.title }}</h3>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm">
+            <p class="float-left mr-3">{{ article.user.firstname ~' ' ~ article.user.lastname }} </p>
+            <p class="float-left mr-3">{{ article.category.name }} </p>
+            <p class="float-left">{{ article.CreatedAt |date("d/m/Y") }}</p>
+            <br><br>
+            <div class="text-center mb-4">
+                <img src="{{ article.picture }}">
+            </div>
+            <blockquote class="blockquote text-center">
+                {{ article.content}}
+            </blockquote>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {{ form_start(formLike,{'attr':{'class':'text-center'}}) }}
+                <button type="submit" class="btn btn-primary float-right mb-5">Liker</button>
+                {{ form_end(formLike) }}
+            {% endif %}
+        </div>
+    </div>
+    <h3 class="mt-5 mb-5 text-center">Espace commentaire</h3>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form_start(formComment,{'attr':{'class':'text-center'}}) }}
+        {{ form_widget(formComment.content, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0; height :100px' }}) }}
+        <button type="submit" class="btn btn-primary float-right mb-5">Commenter</button>
+        {{ form_end(formComment) }}
+    {% endif %}
+    <div class="row mt-5 text-center">
 
+        {% for comment in comments %}
+            {% if comment.state == "validated" %}
+        <div class="row mt-3 mb-3 bg-dark text-white pr-5 pl-5 pt-3">
+            <div class="col">
+                <p class="float-left mr-3">{{ comment.user.pseudo }}</p>
+                <p class="float-left mr-3">{{ comment.date |date("d/m/Y") }}</p>
+            </div>
+                <blockquote class="blockquote text-center">
+                    {{ comment.content}}
+                </blockquote>
+        </div>
+            {% endif %}
+        {% else %}
+            <p>Il n'y a pas encore de commentaire, publiez le premier !</p>
+        {% endfor %}
+    </div>
+    <h3 class="text-center mt-5">Articles récent</h3>
+    <div class="row mt-3 text-center">
+        {% for articleR in ArticleRecent %}
+            <a href="{{ path('article_show',{'slug':articleR.id})}}">
+            <div class="col-sm">
+                <div>{{ articleR.title }}</div>
+                <div class="text-center mb-4">
+                    <img  src="{{ articleR.picture }}" width="200px" height="200px">
+                </div>
+                <div>{{ articleR.category.name }}</div>
+            </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

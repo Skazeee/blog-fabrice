@@ -49,7 +49,6 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /**
      * @return article[]
      * @param $max prend en parametre un entier definissant le maximum de resultat
@@ -64,7 +63,35 @@ class ArticleRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * @param $tri string
+     * @param $value string
+     *@return article[]
+          */
+    public function FindAllOrdered(string $tri, string $value):array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.'.$tri,$value )
+            ->getQuery()
+            ->getResult();
+    }
 
-
+    /**
+     * @param $user
+     * @return article[]
+     */
+    public function FindAllLikedArticles($user):array
+    {
+        $query = $this->_em->createQueryBuilder();
+        $query
+            ->select('a')
+            ->from(Article::class, 'a')
+            ->join('a.likes', 'l')
+            ->where('l.user = :user')
+            ->orderBy('a.Created_at', 'desc')
+            ->setParameter('user', $user) ;
+        return $query->getQuery()->getResult();
+    }
 }
+
 

@@ -6,7 +6,7 @@
 
 <div class="container" style="height: 79.4vh;">
     {{ form_start(form,{'attr':{'class':'text-center'}}) }}
-    <h1 class="h3 mb-3 font-weight-normal text-center m-3">Nous contactez</h1>
+    <h1 class="h3 mb-3 font-weight-normal text-center m-3">Nous contacter</h1>
     {{ form_label(form.name) }}
     {{ form_widget(form.name, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
     {{ form_label(form.from) }}
@@ -14,7 +14,7 @@
     {{ form_label(form.message) }}
     {{ form_widget(form.message, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
 
-    <button type="submit" class="btn btn-lg btn-primary text-center mt-3 mb-5">Envoyer</button>
+    <button type="submit" class="btn btn-lg btn-primary text-center mt-3 mb-5 pl-5 pr-5">Envoyer</button>
     {{ form_end(form) }}
 </div>
 {% endblock %}

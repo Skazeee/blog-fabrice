@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row sticky">
+            <div class="col-4">
+                <div class="btn-group-vertical">
+                    <a href="{{ path('accountAdmin') }}">
+                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Accueil</button>
+                    </a>
+                    <a href="{{ path('accountArticleAdmin') }}">
+                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Mes articles
+                        </button>
+                    </a>
+                    <a href="{{ path('article_create') }}">
+                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Créer un article
+                        </button>
+                    </a>
+                    <a href="{{ path('GestionComs') }}">
+                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Gestion
+                            commentaire
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-8  mt-3 mb-3 text-white text-center">
+                <h3 class="mt-2">Mes articles</h3>
+                {% for article in MesArticles %}
+                    <div class="bg-dark p-3 m-3">
+                        <div class="text-center row mt-3">
+                            <h4 class="text-center m-4 text-white">{{ article.title }}</h4>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm">
+                                <p class="float-left mr-3">{{ article.user.firstname ~' ' ~ article.user.lastname }} </p>
+                                <p class="float-left mr-3">{{ article.category.name }} </p>
+                                <p class="float-left">{{ article.CreatedAt |date("d/m/Y") }}</p>
+                                <br><br>
+                                <blockquote class="blockquote text-center">
+                                    {{ article.content|u.truncate(250) }}
+                                    <a class="text-info" href="{{ path('article_show',{'slug':article.id}) }}">...Lire
+                                        la suite</a>
+                                </blockquote>
+                                <a class="text-info"
+                                   href="{{ path('article_modify',{'slug':article.id}) }}">Modifier</a>
+                                <a class="text-info"
+                                   href="{{ path('article_delete',{'slug':article.id}) }}">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="text-center row mt-3">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"
+                         style="width: fit-content; margin-left: auto;margin-right: auto;">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            {% if pagination > 10 %}
+                                {% for i in 1..5 %}
+                                    <a href="{{ path('home',{'page': i}) }}">
+                                        <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                    </a>
+                                {% endfor %}
+                                <button type="button" class="btn btn-secondary">...</button>
+                                {% for i in pagination-4..pagination %}
+                                    <a href="{{ path('home',{'page': i}) }}">
+                                        <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                {% for i in 1..pagination %}
+                                    <a href="{{ path('home',{'page': i}) }}">
+                                        <button type="button" class="btn btn-secondary">{{ i }}</button>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
