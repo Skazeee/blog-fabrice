@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mon Blog{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- CSS only -->
+        <link href="https://bootswatch.com/4/lux/bootstrap.min.css" rel="stylesheet">
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                crossorigin="anonymous"></script>{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Mon Blog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Accueil
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('about') }}">À propos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+            </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="{{ path('accountAdmin') }}"> Mon compte</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="{{ path('accountHome') }}"> Mon compte</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item text-center">
+                    <a class="nav-link"
+                       href="{{ path('app_logout') }}"> {{ app.user.pseudo }} {{ "\nSe deconnecter"|nl2br }} </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('register') }}">S'inscrire</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="container">
+    <div class="row sticky">
+        <div class="col-4">
+            <div class="btn-group-vertical">
+                <a href="{{ path('accountHome') }}">
+                    <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Accueil</button>
+                </a>
+                <a href="{{ path('accountInfo') }}">
+                    <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Infos Perso</button>
+                </a>
+                <a href="{{ path('LikedArt') }}">
+                    <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Articles aimés
+                    </button>
+                </a>
+                <a href="{{ path('LikedComs') }}">
+                    <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Articles commentés
+                    </button>
+                </a>
+            </div>
+        </div>
+        {% block body %}{% endblock %}
+    </div>
+</div>
+<div class="footer">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Instagram
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">À Twitter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">NewsLetter</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

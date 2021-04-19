@@ -152,6 +152,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/admin/delete/{slug}", name="article_delete")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function deleteArticle(ArticleRepository $articleRepository, $slug){
 

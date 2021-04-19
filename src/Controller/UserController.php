@@ -162,6 +162,7 @@ class UserController extends AbstractController
 
         return $this->render('user/accountComs.html.twig', [
             'CommentedArticles' => $articleShowed,
+            'commentaires'=>$comments,
             'pagination' => $page
         ]);
     }
@@ -217,6 +218,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/AccountAdmin/GestionCom/{page?1}", name="GestionComs")
+     * @IsGranted("ROLE_ADMIN")
      * @param ArticleRepository $articleRepository
      * @param CommentsRepository $commentsRepository
      * @param UserRepository $userRepository
@@ -258,6 +260,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/AccountAdmin/validationCom", name="validationCom")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function validationCom(Request $request, CommentsRepository $commentsRepository):Response
     {

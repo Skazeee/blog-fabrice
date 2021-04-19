@@ -1,26 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'menuNavigationAdmin.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <div class="btn-group-vertical">
-                    <a href="{{ path('accountAdmin') }}">
-                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Accueil</button>
-                    </a>
-                    <a href="{{ path('accountArticleAdmin') }}">
-                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Mes articles</button>
-                    </a>
-                    <a href="{{ path('article_create') }}">
-                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Créer un article
-                        </button>
-                    </a>
-                    <a href="{{ path('GestionComs') }}">
-                        <button type="button" class="btn btn-primary mt-5" style="min-width: 200px">Gestion commentaire</button>
-                    </a>
-                </div>
-            </div>
-
             <div class="col-8  mt-3 mb-3 text-white text-center">
                 <h3 class="mt-2 text-white">Vos derniers articles</h3>
                 {% for article in MesArticles %}
@@ -47,7 +27,4 @@
                 {% endfor %}
 
             </div>
-        </div>
-    </div>
-
 {% endblock %}
