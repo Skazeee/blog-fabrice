@@ -33,19 +33,19 @@
                         <div class="btn-group mr-2" role="group" aria-label="First group">
                             {% if pagination > 10 %}
                                 {% for i in 1..5 %}
-                                    <a href="{{ path('home',{'page': i}) }}">
+                                    <a href="{{ path('accountArticleAdmin',{'page': i}) }}">
                                         <button type="button" class="btn btn-secondary">{{ i }}</button>
                                     </a>
                                 {% endfor %}
                                 <button type="button" class="btn btn-secondary">...</button>
                                 {% for i in pagination-4..pagination %}
-                                    <a href="{{ path('home',{'page': i}) }}">
+                                    <a href="{{ path('accountArticleAdmin',{'page': i}) }}">
                                         <button type="button" class="btn btn-secondary">{{ i }}</button>
                                     </a>
                                 {% endfor %}
                             {% else %}
                                 {% for i in 1..pagination %}
-                                    <a href="{{ path('home',{'page': i}) }}">
+                                    <a href="{{ path('accountArticleAdmin',{'page': i}) }}">
                                         <button type="button" class="btn btn-secondary">{{ i }}</button>
                                     </a>
                                 {% endfor %}

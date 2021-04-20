@@ -1,8 +1,8 @@
 {% extends'menuNavigation.html.twig' %}
 {% block body %}
             <div class="col-8  mt-3 mb-3 text-white text-center">
-                <h3 class="mt-2 text-white">Mes infos !</h3>
-
+                <h3 class="mt-2">Mes infos !</h3>
+                {{ form_start(form) }}
                 {{ form_label(form.firstname) }}
                 {{ form_widget(form.firstname, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
                 {{ form_label(form.lastname) }}
@@ -11,7 +11,6 @@
                 {{ form_widget(form.pseudo, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
                 {{ form_label(form.email) }}
                 {{ form_widget(form.email, {'attr': {'class': 'form-control','style':'margin :10px 0 10px 0'}}) }}
-
                 <button type="submit" class="btn btn-lg btn-primary text-center mt-3 mb-5 pl-5 pr-5">Modifier</button>
                 {{ form_end(form) }}
             </div>

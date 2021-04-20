@@ -35,41 +35,43 @@ class ArticleController extends AbstractController
     {
 
         $articlesList = $articleRepository->FindLatest(4);
-        $Article = $this->$articleRepository->find($slug);
+        $Article = $articleRepository->find($slug);
         $comments = $commentsRepository->findBy(['article' => $Article]);
 
-        if ($this->getUser()->getUsername()) {
-            $LoggedUser = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
-        }
-
-        $comment = new Comments();
-        $formComment = $this->createForm(CommentType::class, $comment);
-        $formComment->handleRequest($request);
-
         $like = new Likes();
-        $like->setUser($LoggedUser);
-        $like->setArticle($Article);
+        if ($this->getUser()) {
+            $LoggedUser = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
+            $like->setUser($LoggedUser);
+            $like->setArticle($Article);
 
-        $formLike = $this->createForm(LikeTypeFormType::class, $like);
-        if ($request->request->has('like_type_form')) {
-            $doctrine = $this->getDoctrine()->getManager();
-            $doctrine->persist($like);
-            $doctrine->flush();
-            $this->addFlash('success', 'Vous avez aimé cet article !');
         }
 
-        if ($formComment->isSubmitted() && $formComment->isValid() && $formComment->getName() == 'comment') {
+            $formLike = $this->createForm(LikeTypeFormType::class, $like);
+            if ($request->request->has('like_type_form')) {
+                $doctrine = $this->getDoctrine()->getManager();
+                $doctrine->persist($like);
+                $doctrine->flush();
+                $this->addFlash('success', 'Vous avez aimé cet article !');
+            }
 
-            $comment
-                ->setArticle($Article)
-                ->setDate(date_create('now'))
-                ->setUser($LoggedUser)
-                ->setState('Waiting');
-            $doctrine = $this->getDoctrine()->getManager();
-            $doctrine->persist($comment);
-            $doctrine->flush();
-            $this->addFlash('success', 'Commentaire bien envoyé !');
-        }
+            $comment = new Comments();
+            $formComment = $this->createForm(CommentType::class, $comment);
+            $formComment->handleRequest($request);
+
+
+
+            if ($formComment->isSubmitted() && $formComment->isValid() && $formComment->getName() == 'comment') {
+
+                $comment
+                    ->setArticle($Article)
+                    ->setDate(date_create('now'))
+                    ->setUser($LoggedUser)
+                    ->setState('Waiting');
+                $doctrine = $this->getDoctrine()->getManager();
+                $doctrine->persist($comment);
+                $doctrine->flush();
+                $this->addFlash('success', 'Commentaire bien envoyé !');
+            }
 
 
         return $this->render('article/index.html.twig', [
@@ -90,7 +92,7 @@ class ArticleController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function modifyArticle(ArticleRepository $articleRepository, Request $request, UserRepository $userRepository,CategoryRepository $categoryRepository, $slug): Response
+    public function modifyArticle(ArticleRepository $articleRepository, Request $request, UserRepository $userRepository, CategoryRepository $categoryRepository, $slug): Response
     {
 
         $LoggedUser = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
@@ -113,8 +115,8 @@ class ArticleController extends AbstractController
         return $this->render('article/Modify.html.twig', [
             'controller_name' => 'ArticleController',
             'form' => $form->createView(),
-            'category'=>$category,
-            'article'=>$article
+            'category' => $category,
+            'article' => $article
 
         ]);
     }
@@ -127,7 +129,7 @@ class ArticleController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function CreateArticle(Request $request, UserRepository $userRepository,CategoryRepository $categoryRepository): Response
+    public function CreateArticle(Request $request, UserRepository $userRepository, CategoryRepository $categoryRepository): Response
     {
 
         $LoggedUser = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
@@ -154,10 +156,11 @@ class ArticleController extends AbstractController
      * @Route("/admin/delete/{slug}", name="article_delete")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function deleteArticle(ArticleRepository $articleRepository, $slug){
+    public function deleteArticle(ArticleRepository $articleRepository, $slug)
+    {
 
         $entityManager = $this->getDoctrine()->getManager();
-        $article = $articleRepository->findOneBy(['id'=>$slug]);
+        $article = $articleRepository->findOneBy(['id' => $slug]);
         $entityManager->remove($article);
         $entityManager->flush();
         $this->addFlash('success', 'article supprimé !');

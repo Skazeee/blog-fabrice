@@ -144,9 +144,7 @@ class UserController extends AbstractController
         $CommentedArticles = [];
 
         foreach ($comments as $comment) {
-            if (!in_array($comment->getArticle(), $CommentedArticles)) {
-                $CommentedArticles[] = $comment->getArticle();
-            }
+            $CommentedArticles[] = $comment->getArticle();
 
         }
         $articleShowed = [];
@@ -159,11 +157,17 @@ class UserController extends AbstractController
                 $articleShowed[] = $CommentedArticles[$i];
             }
         }
+        if (count($CommentedArticles) < 10) {
+            $nbPage = 1;
+        } else {
+            $nbPage = count($CommentedArticles) / 10;
+            $nbPage =  ceil($nbPage);
+        }
 
         return $this->render('user/accountComs.html.twig', [
             'CommentedArticles' => $articleShowed,
-            'commentaires'=>$comments,
-            'pagination' => $page
+            'commentaires' => $comments,
+            'pagination' => $nbPage
         ]);
     }
 
@@ -251,10 +255,10 @@ class UserController extends AbstractController
                 }
             }
         }
-            return $this->render('user/GestionComsAdmin.html.twig', [
-                'commentaires' => $ComShowed,
-                'pagination' => $nbPage,
-            ]);
+        return $this->render('user/GestionComsAdmin.html.twig', [
+            'commentaires' => $ComShowed,
+            'pagination' => $nbPage,
+        ]);
 
     }
 
@@ -262,21 +266,21 @@ class UserController extends AbstractController
      * @Route("/AccountAdmin/validationCom", name="validationCom")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function validationCom(Request $request, CommentsRepository $commentsRepository):Response
+    public function validationCom(Request $request, CommentsRepository $commentsRepository): Response
     {
 
         $comValidated = $request->request->get('com_validated');
         $comRefused = $request->request->get('com_refused');
 
         $entityManager = $this->getDoctrine()->getManager();
-        if(!is_null($comValidated)) {
+        if (!is_null($comValidated)) {
             foreach ($comValidated as $value) {
                 $com = $commentsRepository->findOneBy(['id' => $value]);
                 $com->setState('validated');
                 $entityManager->persist($com);
             }
         }
-        if(!is_null($comRefused)) {
+        if (!is_null($comRefused)) {
             foreach ($comRefused as $value) {
                 $com = $commentsRepository->findOneBy(['id' => $value]);
                 $com->setState('refused');
